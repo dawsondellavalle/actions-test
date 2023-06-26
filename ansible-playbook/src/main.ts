@@ -10,8 +10,8 @@ async function run(): Promise<void> {
 		const ansibleBin = core.getInput('ansible_bin');
 		const playbook = core.getInput('playbook', { required: true });
 
-        // const requirements = core.getInput('requirements');
-        // const requirementsFile = core.getInput('requirements_file');
+		// const requirements = core.getInput('requirements');
+		// const requirementsFile = core.getInput('requirements_file');
 
 		const directory = core.getInput('directory');
 
@@ -53,7 +53,7 @@ async function run(): Promise<void> {
 		const noColor = core.getBooleanInput('no_color');
 
 		const cmd: string[] = [];
-		const env: { [key: string]: string; } = {};
+		const env: { [key: string]: string } = {};
 		const sshCommonArgs = [];
 
 		cmd.push(playbook);
@@ -63,7 +63,9 @@ async function run(): Promise<void> {
 				const forksNumber = Math.max(parseInt(forks), 0);
 
 				cmd.push('--forks', forksNumber.toString());
-			} catch (error) {}
+			} catch (error) {
+				throw error;
+			}
 		}
 
 		if (inventory) {
@@ -248,11 +250,11 @@ async function run(): Promise<void> {
 		});
 
 		if (exitCode !== 0) {
-			console.log('failed!');
+			throw new Error(`${ansibleBin || 'ansible-playbook'} run failed!`);
 		}
 	} catch (error) {
 		if (error instanceof Error) core.setFailed(error.message);
 	}
 }
 
-run()
+run();
