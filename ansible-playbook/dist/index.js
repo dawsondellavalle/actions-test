@@ -27,6 +27,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const tmpFiles = [];
         try {
+            console.log(core_1);
             const ansibleBin = core_1.default.getInput('ansible_bin');
             const playbook = core_1.default.getInput('playbook', { required: true });
             // const requirements = core.getInput('requirements');
@@ -205,9 +206,9 @@ function run() {
             }
         }
         catch (error) {
-            if (error instanceof Error)
-                console.log(error);
-                // core_1.default.setFailed(error.message);
+            console.log(error);
+            // if (error instanceof Error)
+            //     core_1.default.setFailed(error.message);
         }
     });
 }
