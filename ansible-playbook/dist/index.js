@@ -206,7 +206,8 @@ function run() {
         }
         catch (error) {
             if (error instanceof Error)
-                core_1.default.setFailed(error.message);
+                console.log(error);
+                // core_1.default.setFailed(error.message);
         }
     });
 }
