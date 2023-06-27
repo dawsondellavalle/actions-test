@@ -6,6 +6,29 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -19,43 +42,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core_1 = __importDefault(__nccwpck_require__(186));
-const exec_1 = __importDefault(__nccwpck_require__(514));
+const core = __importStar(__nccwpck_require__(186));
+const exec = __importStar(__nccwpck_require__(514));
 const fs_1 = __importDefault(__nccwpck_require__(147));
 const tmp_1 = __nccwpck_require__(870);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const tmpFiles = [];
         try {
-            console.log(core_1);
-            const ansibleBin = core_1.default.getInput('ansible_bin');
-            const playbook = core_1.default.getInput('playbook', { required: true });
+            const ansibleBin = core.getInput('ansible_bin');
+            const playbook = core.getInput('playbook', { required: true });
             // const requirements = core.getInput('requirements');
             // const requirementsFile = core.getInput('requirements_file');
-            const directory = core_1.default.getInput('directory');
-            const user = core_1.default.getInput('user');
-            const unbufferedOutput = core_1.default.getBooleanInput('unbuffered_output');
-            const limit = core_1.default.getInput('limit');
-            const startAtTask = core_1.default.getInput('start_task');
-            const skipTags = core_1.default.getInput('skip_tags');
-            const tags = core_1.default.getInput('tags');
-            const privateKey = core_1.default.getInput('private_key');
-            const privateKeyFile = core_1.default.getInput('private_key_file');
-            const inventory = core_1.default.getInput('inventory');
-            const inventoryFile = core_1.default.getInput('inventory_file');
-            const vaultPassword = core_1.default.getInput('vault_password');
-            const vaultPasswordFile = core_1.default.getInput('vault_password_file');
-            const knownHosts = core_1.default.getInput('known_hosts');
-            const knownHostsFile = core_1.default.getInput('known_hosts_file');
-            const become = core_1.default.getBooleanInput('become');
-            const becomeUser = core_1.default.getInput('become_user');
-            const becomePassword = core_1.default.getInput('become_password');
-            const becomePasswordFile = core_1.default.getInput('become_password_file');
-            const connectionPassword = core_1.default.getInput('connection_password');
-            const connectionPasswordFile = core_1.default.getInput('connection_password_file');
-            const forks = core_1.default.getInput('forks');
-            const hostKeyChecking = core_1.default.getBooleanInput('host_key_checking');
-            const noColor = core_1.default.getBooleanInput('no_color');
+            const directory = core.getInput('directory');
+            const user = core.getInput('user');
+            const unbufferedOutput = core.getBooleanInput('unbuffered_output');
+            const limit = core.getInput('limit');
+            const startAtTask = core.getInput('start_task');
+            const skipTags = core.getInput('skip_tags');
+            const tags = core.getInput('tags');
+            const privateKey = core.getInput('private_key');
+            const privateKeyFile = core.getInput('private_key_file');
+            const inventory = core.getInput('inventory');
+            const inventoryFile = core.getInput('inventory_file');
+            const vaultPassword = core.getInput('vault_password');
+            const vaultPasswordFile = core.getInput('vault_password_file');
+            const knownHosts = core.getInput('known_hosts');
+            const knownHostsFile = core.getInput('known_hosts_file');
+            const become = core.getBooleanInput('become');
+            const becomeUser = core.getInput('become_user');
+            const becomePassword = core.getInput('become_password');
+            const becomePasswordFile = core.getInput('become_password_file');
+            const connectionPassword = core.getInput('connection_password');
+            const connectionPasswordFile = core.getInput('connection_password_file');
+            const forks = core.getInput('forks');
+            const hostKeyChecking = core.getBooleanInput('host_key_checking');
+            const noColor = core.getBooleanInput('no_color');
             const cmd = [];
             const env = {};
             const sshCommonArgs = [];
@@ -185,17 +207,17 @@ function run() {
             // ansible-galaxy install -r $reqs
             // chdir
             // const output = [];
-            const exitCode = yield exec_1.default.exec(ansibleBin || 'ansible-playbook', cmd, {
+            const exitCode = yield exec.exec(ansibleBin || 'ansible-playbook', cmd, {
                 cwd: directory,
                 env,
                 listeners: {
                     stdout: stdout => {
-                        core_1.default.info(stdout.toString());
+                        core.info(stdout.toString());
                         // console.log(stdout);
                         // output.push(stdout);
                     },
                     stderr: stderr => {
-                        core_1.default.error(stderr.toString());
+                        core.error(stderr.toString());
                         // console.error(stderr);
                         // output.push(stderr);
                     },
@@ -206,9 +228,8 @@ function run() {
             }
         }
         catch (error) {
-            console.log(error);
-            // if (error instanceof Error)
-            //     core_1.default.setFailed(error.message);
+            if (error instanceof Error)
+                core.setFailed(error.message);
         }
     });
 }
