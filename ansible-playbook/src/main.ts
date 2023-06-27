@@ -239,12 +239,12 @@ async function run(): Promise<void> {
 			env,
 			listeners: {
 				stdout: stdout => {
-					core.info(stdout.toString());
+					// core.info(stdout.toString());
 					// console.log(stdout);
 					// output.push(stdout);
 				},
 				stderr: stderr => {
-					core.error(stderr.toString());
+					// core.error(stderr.toString());
 					// console.error(stderr);
 					// output.push(stderr);
 				},
