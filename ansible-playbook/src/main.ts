@@ -17,6 +17,8 @@ async function run(): Promise<void> {
 
 		const directory = core.getInput('directory');
 
+		const groupVarsDirectory = core.getInput('group_vars_directory');
+
 		const user = core.getInput('user');
 
 		const unbufferedOutput = core.getBooleanInput('unbuffered_output');
@@ -122,6 +124,10 @@ async function run(): Promise<void> {
 			}
 
 			cmd.push('--vault-password-file', vaultPasswordFile);
+		}
+
+		if (groupVarsDirectory) {
+			cmd.push('--extra-vars', `ansible_vars_plugin=${groupVarsDirectory}`);
 		}
 
 		if (limit) {

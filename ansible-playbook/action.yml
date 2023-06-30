@@ -55,6 +55,9 @@ inputs:
   known_hosts_file:
     description: 'Path to the known hosts file'
     required: false
+  group_vars_directory:
+    description: 'Path to the group vars directory'
+    required: false
   become:
     description: 'Enable privilege escalation'
     required: false
