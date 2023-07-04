@@ -126,6 +126,8 @@ async function run(): Promise<void> {
 			cmd.push('--vault-password-file', vaultPasswordFile);
 		}
 
+		core.info('..........................................................' + groupVarsDirectory + '-------------------');
+
 		if (groupVarsDirectory) {
 			cmd.push('--extra-vars', `ansible_vars_plugin=${groupVarsDirectory}`);
 		}
