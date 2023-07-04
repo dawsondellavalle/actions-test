@@ -4,6 +4,7 @@ import * as exec from '@actions/exec';
 import fs from 'fs';
 
 import { tmpFile } from './tmp';
+import path from 'path';
 
 async function run(): Promise<void> {
 	const tmpFiles = [];
@@ -16,8 +17,6 @@ async function run(): Promise<void> {
 		// const requirementsFile = core.getInput('requirements_file');
 
 		const directory = core.getInput('directory');
-
-		const groupVarsDirectory = core.getInput('group_vars_directory');
 
 		const user = core.getInput('user');
 
@@ -73,7 +72,7 @@ async function run(): Promise<void> {
 		}
 
 		if (inventory) {
-			const tmpInventoryPath = tmpFile('_ansible_hosts');
+			const tmpInventoryPath = !directory ? tmpFile('_ansible_hosts') : path.join(directory, '_ansible_hosts');
 
 			fs.writeFileSync(tmpInventoryPath, inventory);
 
@@ -124,10 +123,6 @@ async function run(): Promise<void> {
 			}
 
 			cmd.push('--vault-password-file', vaultPasswordFile);
-		}
-
-		if (groupVarsDirectory) {
-			cmd.push('--extra-vars', `ansible_vars_plugin=${groupVarsDirectory}`);
 		}
 
 		if (limit) {

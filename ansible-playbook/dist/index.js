@@ -46,6 +46,7 @@ const core = __importStar(__nccwpck_require__(186));
 const exec = __importStar(__nccwpck_require__(514));
 const fs_1 = __importDefault(__nccwpck_require__(147));
 const tmp_1 = __nccwpck_require__(870);
+const path_1 = __importDefault(__nccwpck_require__(17));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const tmpFiles = [];
@@ -55,7 +56,6 @@ function run() {
             // const requirements = core.getInput('requirements');
             // const requirementsFile = core.getInput('requirements_file');
             const directory = core.getInput('directory');
-            const groupVarsDirectory = core.getInput('group_vars_directory');
             const user = core.getInput('user');
             const unbufferedOutput = core.getBooleanInput('unbuffered_output');
             const limit = core.getInput('limit');
@@ -93,7 +93,7 @@ function run() {
                 }
             }
             if (inventory) {
-                const tmpInventoryPath = (0, tmp_1.tmpFile)('_ansible_hosts');
+                const tmpInventoryPath = !directory ? (0, tmp_1.tmpFile)('_ansible_hosts') : path_1.default.join(directory, '_ansible_hosts');
                 fs_1.default.writeFileSync(tmpInventoryPath, inventory);
                 cmd.push('--inventory-file', tmpInventoryPath);
                 tmpFiles.push(tmpInventoryPath);
@@ -127,9 +127,6 @@ function run() {
                     throw new Error('The vault password file specified does not exist.');
                 }
                 cmd.push('--vault-password-file', vaultPasswordFile);
-            }
-            if (groupVarsDirectory) {
-                cmd.push('--extra-vars', `ansible_vars_plugin=${groupVarsDirectory}`);
             }
             if (limit) {
                 cmd.push('--limit', limit);
