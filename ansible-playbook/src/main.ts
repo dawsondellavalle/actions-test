@@ -126,8 +126,6 @@ async function run(): Promise<void> {
 			cmd.push('--vault-password-file', vaultPasswordFile);
 		}
 
-		core.info('..........................................................' + groupVarsDirectory + '-------------------');
-
 		if (groupVarsDirectory) {
 			cmd.push('--extra-vars', `ansible_vars_plugin=${groupVarsDirectory}`);
 		}
@@ -246,16 +244,16 @@ async function run(): Promise<void> {
 			cwd: directory,
 			env,
 			listeners: {
-				stdout: stdout => {
-					// core.info(stdout.toString());
-					// console.log(stdout);
-					// output.push(stdout);
-				},
-				stderr: stderr => {
-					// core.error(stderr.toString());
-					// console.error(stderr);
-					// output.push(stderr);
-				},
+				// stdout: stdout => {
+				// 	// core.info(stdout.toString());
+				// 	// console.log(stdout);
+				// 	// output.push(stdout);
+				// },
+				// stderr: stderr => {
+				// 	// core.error(stderr.toString());
+				// 	// console.error(stderr);
+				// 	// output.push(stderr);
+				// },
 			},
 		});
 
@@ -265,9 +263,7 @@ async function run(): Promise<void> {
 	} catch (error) {
 		if (error instanceof Error) core.setFailed(error.message);
 	} finally {
-		for (let i = 0; i < tmpFiles.length; i++) {
-			const file = tmpFiles[i];
-
+		for (const file of tmpFiles) {
 			await fs.promises.unlink(file);
 		}
 	}

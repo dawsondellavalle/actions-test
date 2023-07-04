@@ -55,6 +55,7 @@ function run() {
             // const requirements = core.getInput('requirements');
             // const requirementsFile = core.getInput('requirements_file');
             const directory = core.getInput('directory');
+            const groupVarsDirectory = core.getInput('group_vars_directory');
             const user = core.getInput('user');
             const unbufferedOutput = core.getBooleanInput('unbuffered_output');
             const limit = core.getInput('limit');
@@ -126,6 +127,9 @@ function run() {
                     throw new Error('The vault password file specified does not exist.');
                 }
                 cmd.push('--vault-password-file', vaultPasswordFile);
+            }
+            if (groupVarsDirectory) {
+                cmd.push('--extra-vars', `ansible_vars_plugin=${groupVarsDirectory}`);
             }
             if (limit) {
                 cmd.push('--limit', limit);
@@ -211,16 +215,16 @@ function run() {
                 cwd: directory,
                 env,
                 listeners: {
-                    stdout: stdout => {
-                        core.info(stdout.toString());
-                        // console.log(stdout);
-                        // output.push(stdout);
-                    },
-                    stderr: stderr => {
-                        core.error(stderr.toString());
-                        // console.error(stderr);
-                        // output.push(stderr);
-                    },
+                // stdout: stdout => {
+                // 	// core.info(stdout.toString());
+                // 	// console.log(stdout);
+                // 	// output.push(stdout);
+                // },
+                // stderr: stderr => {
+                // 	// core.error(stderr.toString());
+                // 	// console.error(stderr);
+                // 	// output.push(stderr);
+                // },
                 },
             });
             if (exitCode !== 0) {
@@ -230,6 +234,11 @@ function run() {
         catch (error) {
             if (error instanceof Error)
                 core.setFailed(error.message);
+        }
+        finally {
+            for (const file of tmpFiles) {
+                yield fs_1.default.promises.unlink(file);
+            }
         }
     });
 }
