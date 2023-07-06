@@ -13,7 +13,7 @@ async function run(): Promise<void> {
 		const json = JSON.parse(content.toString());
 
 		core.setOutput('json', json);
-		core.setOutput('matrix', { build: json.builds });
+		core.setOutput('matrix', { include: json.builds });
 		core.setOutput('uuid', uuidV4());
 	} catch (error) {
 		if (error instanceof Error) core.setFailed(error.message);
