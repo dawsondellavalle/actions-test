@@ -25,7 +25,7 @@ runs:
 
     - name: generate-ansible-vars
       run: /root/git/auto-packaging/new-scripts/generate-ansible-vars ${{ inputs.directory }} ${{ steps.manifest.outputs.uuid }}
-
+      shell: bash
 
     - name: Run prebuild playbook
       uses: dawsondellavalle/actions-test/ansible-playbook@main
