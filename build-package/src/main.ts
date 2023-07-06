@@ -33,7 +33,7 @@ async function run(): Promise<void> {
 		if (['rocky'].includes(build.group)) {
 			const cmd: string[] = [];
 
-			cmd.push('run', '-t');
+			cmd.push('run', '-t', '--rm');
 
 			cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/specs:/home/rpm/rpmbuild/SPECS`);
 			cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/sources:/home/rpm/rpmbuild/SOURCES`);
@@ -55,7 +55,7 @@ async function run(): Promise<void> {
 		if (['debian', 'ubuntu'].includes(build.group)) {
 			const cmd: string[] = [];
 
-			cmd.push('run', '-t');
+			cmd.push('run', '-t', '--rm');
 
 			cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/source:/home/deb/build`);
 			cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/debian:/home/deb/build/debian`);

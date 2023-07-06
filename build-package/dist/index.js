@@ -69,7 +69,7 @@ function run() {
             const buildId = build.id ? build.id : build.os_name;
             if (['rocky'].includes(build.group)) {
                 const cmd = [];
-                cmd.push('run', '-t');
+                cmd.push('run', '-t', '--rm');
                 cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/specs:/home/rpm/rpmbuild/SPECS`);
                 cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/sources:/home/rpm/rpmbuild/SOURCES`);
                 cmd.push('-v', `/mnt/tank/ci_data/${uuid}/output/${buildId}/rpms:/home/rpm/rpmbuild/RPMS`);
@@ -84,7 +84,7 @@ function run() {
             }
             if (['debian', 'ubuntu'].includes(build.group)) {
                 const cmd = [];
-                cmd.push('run', '-t');
+                cmd.push('run', '-t', '--rm');
                 cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/source:/home/deb/build`);
                 cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/debian:/home/deb/build/debian`);
                 cmd.push('-v', `/mnt/tank/ci_data/${uuid}/output/${buildId}/debs:/home/deb/debs`);
