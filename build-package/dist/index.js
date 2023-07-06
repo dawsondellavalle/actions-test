@@ -83,7 +83,17 @@ function run() {
                 }
             }
             if (['debian', 'ubuntu'].includes(build.group)) {
-                core.info('DEBIAN WIP');
+                const cmd = [];
+                cmd.push('run', '-t');
+                cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/source:/home/deb/build`);
+                cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/debian:/home/deb/build/debian`);
+                cmd.push('-v', `/mnt/tank/ci_data/${uuid}/output/${buildId}/debs:/home/deb/debs`);
+                cmd.push('-e', 'NPM_TOKEN=?');
+                cmd.push(build.image);
+                const exitCode = yield exec.exec('podman', cmd);
+                if (exitCode !== 0) {
+                    throw new Error(`rocky build failed!`);
+                }
             }
             // core.info(buildJson);
             // core.info(manifest);
