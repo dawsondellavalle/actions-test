@@ -75,7 +75,7 @@ function run() {
                 cmd.push('-v', `/mnt/tank/ci_data/${uuid}/output/${buildId}/rpms:/home/rpm/rpmbuild/RPMS`);
                 cmd.push('-v', `/mnt/tank/ci_data/${uuid}/output/${buildId}/srpms:/home/rpm/rpmbuild/SRPMS`);
                 cmd.push('-e', 'NPM_TOKEN=?');
-                cmd.push('-e', `SPEC_FILE=${manifest.name}`);
+                cmd.push('-e', `SPEC_NAME=${manifest.name}`);
                 cmd.push(build.image);
                 const exitCode = yield exec.exec('podman', cmd);
                 if (exitCode !== 0) {
