@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-// import * as exec from '@actions/exec';
+import * as exec from '@actions/exec';
 
 import fs from 'fs';
 
@@ -23,11 +23,41 @@ async function run(): Promise<void> {
 	try {
 		const manifestJson = core.getInput('manifest');
 		const buildJson = core.getInput('build');
+		const uuid = core.getInput('uuid');
 
 		const manifest = JSON.parse(manifestJson);
+		const build = JSON.parse(buildJson);
 
-		core.info(buildJson);
-		core.info(manifest);
+		const buildId = build.id ? build.id : build.os_name;
+
+		if (['rocky'].includes(build.group)) {
+			const cmd: string[] = [];
+
+			cmd.push('run', '-t');
+
+			cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/specs:/home/rpm/rpmbuild/SPECS`);
+			cmd.push('-v', `/mnt/tank/ci_data/${uuid}/input/${buildId}/sources:/home/rpm/rpmbuild/SOURCES`);
+			cmd.push('-v', `/mnt/tank/ci_data/${uuid}/output/${buildId}/rpms:/home/rpm/rpmbuild/RPMS`);
+			cmd.push('-v', `/mnt/tank/ci_data/${uuid}/output/${buildId}/srpms:/home/rpm/rpmbuild/SRPMS`);
+
+			cmd.push('-e', 'NPM_TOKEN=?');
+			cmd.push('-e', `SPEC_FILE=${manifest.name}`);
+
+			cmd.push(build.image);
+
+			const exitCode = await exec.exec('podman', cmd);
+
+			if (exitCode !== 0) {
+				throw new Error(`rocky build failed!`);
+			}
+		}
+
+		if (['debian', 'ubuntu'].includes(build.group)) {
+			core.info('DEBIAN WIP');
+		}
+
+		// core.info(buildJson);
+		// core.info(manifest);
 
 		// const cmd: string[] = [];
 		// const env: { [key: string]: string } = {};
