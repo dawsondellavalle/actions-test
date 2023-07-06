@@ -10,7 +10,12 @@ async function run(): Promise<void> {
 
 		const content = fs.readFileSync(manifestPath);
 
-		core.setOutput('json', JSON.parse(content.toString()));
+		const json = JSON.parse(content.toString());
+
+		const matrix = json.build;
+
+		core.setOutput('json', json);
+		core.setOutput('matrix', { build: matrix });
 		core.setOutput('uuid', uuidV4());
 	} catch (error) {
 		if (error instanceof Error) core.setFailed(error.message);
