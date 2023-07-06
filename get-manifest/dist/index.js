@@ -51,9 +51,8 @@ function run() {
             const manifestPath = core.getInput('path');
             const content = fs_1.default.readFileSync(manifestPath);
             const json = JSON.parse(content.toString());
-            const matrix = json.build;
             core.setOutput('json', json);
-            core.setOutput('matrix', { build: matrix });
+            core.setOutput('matrix', { build: json.builds });
             core.setOutput('uuid', (0, uuid_1.v4)());
         }
         catch (error) {
